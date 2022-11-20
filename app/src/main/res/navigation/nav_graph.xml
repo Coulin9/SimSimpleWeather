@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/weatherFragment">
+
+    <fragment
+        android:id="@+id/weatherFragment"
+        android:name="com.android.simpleweather.ui.weather.WeatherFragment"
+        android:label="WeatherFragment">
+        <action
+            android:id="@+id/weatherToPlaceList"
+            app:destination="@id/placeListFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/placeListFragment"
+        android:name="com.android.simpleweather.ui.place.PlaceListFragment"
+        android:label="PlaceListFragment">
+        <action
+            android:id="@+id/placeListToWeather"
+            app:destination="@+id/weatherFragment"
+            app:popUpTo="@id/weatherFragment"
+            app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/placeListToTempWeather"
+            app:destination="@id/tempWeatherFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/tempWeatherFragment"
+        android:name="com.android.simpleweather.ui.weather.TempWeatherFragment"
+        tools:layout="TempWeatherFragment">
+        <action
+            android:id="@+id/tempWeatherFragmentToWeatherFragment"
+            app:destination="@id/weatherFragment"
+            app:popUpTo="@id/weatherFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
+</navigation>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="DotIndicator">
+        <attr name="dot_size" format="dimension"/>
+        <attr name="selected_color" format="color"/>
+        <attr name="unselected_color" format="color"/>
+        <attr name="gap_size" format="dimension"/>
+    </declare-styleable>
+    <declare-styleable name="RoundConLayout">
+        <attr name="radius" format="dimension"/>
+        <attr name="left_top_radius" format="dimension"/>
+        <attr name="left_bottom_radius" format="dimension"/>
+        <attr name="right_top_radius" format="dimension"/>
+        <attr name="right_bottom_radius" format="dimension"/>
+    </declare-styleable>
+</resources>
