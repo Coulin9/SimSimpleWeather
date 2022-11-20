@@ -1,41 +1,22 @@
 package com.android.simpleweather
 
 import android.app.Activity
-import android.app.ActivityManager
-import android.app.StatusBarManager
-import android.content.ContextParams
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.content.res.Resources
-import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.service.notification.StatusBarNotification
-import android.util.Log
-import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
-import com.amap.api.location.AMapLocationClient
-import com.android.simpleweather.logic.entity.*
-import com.android.simpleweather.logic.network.NetWork
-import com.android.simpleweather.ui.AppViewModel
-import com.android.simpleweather.utils.LocationS
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.core.Observer
-import io.reactivex.rxjava3.disposables.Disposable
-import io.reactivex.rxjava3.schedulers.Schedulers
-import java.util.jar.Manifest
-import kotlin.concurrent.thread
+import com.baidu.location.LocationClient
+import com.baidu.location.LocationClientOption
 
 class MainActivity : AppCompatActivity() {
 
@@ -55,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         private var _navHostFrag:Fragment?=null
 
         val locationClient get() = _locationClient!!
-        private var _locationClient:AMapLocationClient?=null
+        private var _locationClient:LocationClient?=null
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,7 +51,9 @@ class MainActivity : AppCompatActivity() {
         //让状态栏与手势导航小横条透明
         window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
 
-        _locationClient=LocationS.getInstance()
+        //初始化定位服务。
+        initLocation()
+
     }
 
     override fun onStart() {
@@ -89,21 +72,33 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
+    //初始化定位服务
+    fun initLocation(){
+        LocationClient.setAgreePrivacy(true)
+        val option=LocationClientOption()
+        option.apply {
+            setLocationPurpose(LocationClientOption.BDLocationPurpose.SignIn)
+            openGps=true
+            setIsNeedAddress(true)
+            setIsNeedLocationDescribe(true)
+        }
+        _locationClient=LocationClient(this.applicationContext)
+        _locationClient?.locOption=option
+    }
     private fun startLocation(){
         if(locationClient!=null){
-            locationClient.startLocation()
+            locationClient.start()
         }
     }
 
     private fun stopLocation(){
         if(locationClient!=null){
-            locationClient.stopLocation()
+            locationClient.stop()
         }
     }
 
     private fun destroyLocationClient(){
         _locationClient=null
-        LocationS.destroyInstance()
     }
 
     private fun checkPermission(){
@@ -126,22 +121,6 @@ class MainActivity : AppCompatActivity() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION,android.Manifest.permission.ACCESS_BACKGROUND_LOCATION),0)
             }else ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),0)
-        }
-    }
-
-    fun location(){
-        locationClient.setLocationListener { location->
-            if (location.errorCode == 0) {
-                AppViewModel.getInstance()?.setLocationPlace(Place("",location.district,location.address,
-                    Location(location.latitude,location.longitude)
-                ))
-            }else {
-                //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
-                Log.e("AmapError","location Error, ErrCode:"
-                        + location.errorCode + ", errInfo:"
-                        + location.errorInfo);
-            }
-            //不论定位结果如何，但必须定位完成后再刷新天气。
         }
     }
 

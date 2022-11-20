@@ -38,9 +38,10 @@
         android:theme="@style/Theme.SimpleWeather"
         tools:targetApi="31">
         <meta-data
-            android:name="com.amap.api.v2.apikey"
-            android:value="795f34bf6ddf84990ee1032b59136374"/>
-        <service android:name="com.amap.api.location.APSService"/>
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="T4nfbDjOeQhN2HzVFPMfBAsuYBg9X1yN" >
+        </meta-data>
+        <service android:name="com.baidu.location.f" android:enabled="true" android:process=":remote"/>
         <activity
             android:name=".MainActivity"
             android:exported="true">

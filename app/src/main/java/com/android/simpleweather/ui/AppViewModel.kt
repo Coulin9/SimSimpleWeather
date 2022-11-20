@@ -13,6 +13,8 @@ import com.android.simpleweather.logic.entity.Place
 import com.android.simpleweather.logic.entity.PlaceWithWeather
 import com.android.simpleweather.utils.LogUtil
 import com.android.simpleweather.utils.Ptype
+import com.baidu.location.BDAbstractLocationListener
+import com.baidu.location.BDLocation
 import com.google.gson.Gson
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
@@ -57,6 +59,8 @@ class AppViewModel:ViewModel() {
                 }
 
                 override fun onError(e: Throwable) {
+                    //如果没有本地缓存，务必从网络获取天气信息。
+                    refresh()
                     LogUtil.e("SharedPref","ReadError!")
                 }
 
@@ -68,7 +72,17 @@ class AppViewModel:ViewModel() {
 
     //刷新所有天气数据
     fun refresh(){
-        Repository.refresh(_data)
+        MainActivity.locationClient.registerLocationListener(object :BDAbstractLocationListener(){
+            override fun onReceiveLocation(p0: BDLocation?) {
+                if(p0!=null){
+                    //if(p0.hasAltitude())
+                    LogUtil.d("BDLocation","${p0.district}")
+                    val place=Place("",p0.district,p0.addrStr, Location(p0.latitude,p0.longitude))
+                    setLocationPlace(place)
+                }
+                Repository.refresh(_data)
+            }
+        })
     }
 
     //删除指定下标的天气
@@ -112,21 +126,18 @@ class AppViewModel:ViewModel() {
     }
 
     fun setLocationPlace(place: Place?):Boolean{
-        //定位数据是子线程返回的，加个锁
-        synchronized(this){
-            if(place==null) return false
-            else{
-                if(_data.value==null||_data.value?.size==0||place.name!=_data.value!![0].place.name){
-                    val pww=PlaceWithWeather("ok",place,null,null)
-                    val tempList= mutableListOf<PlaceWithWeather>()
-                    if(_data.value!=null&&_data.value?.size!=0){
-                        tempList.addAll(_data.value!!)
-                        tempList[0]=pww
-                    }else tempList.add(pww)
-                    _data.value=tempList
-                }
-                return true
+        if(place==null) return false
+        else{
+            if(_data.value==null||_data.value?.size==0||place.name!=_data.value!![0].place.name){
+                val pww=PlaceWithWeather("ok",place,null,null)
+                val tempList= mutableListOf<PlaceWithWeather>()
+                if(_data.value!=null&&_data.value?.size!=0){
+                    tempList.addAll(_data.value!!)
+                    tempList[0]=pww
+                }else tempList.add(pww)
+                _data.value=tempList
             }
+            return true
         }
     }
 
