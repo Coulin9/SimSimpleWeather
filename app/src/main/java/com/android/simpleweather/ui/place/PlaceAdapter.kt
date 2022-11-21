@@ -20,6 +20,7 @@ class PlaceAdapter(var data:List<PlaceWithWeather>):RecyclerView.Adapter<PlaceAd
     inner class ViewHolder(val binding:PlaceItemLayoutBinding):RecyclerView.ViewHolder(binding.root)
 
     val lastDeletePosition get() = _lastDeletePosition
+
     private var _lastDeletePosition=0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

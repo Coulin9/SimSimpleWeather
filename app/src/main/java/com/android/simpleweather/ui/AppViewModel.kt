@@ -82,6 +82,7 @@ class AppViewModel:ViewModel() {
                 }
                 Repository.refresh(_data)
             }
+
         })
     }
 
@@ -118,6 +119,11 @@ class AppViewModel:ViewModel() {
             if(_data.value!=null) tempL.addAll(_data.value!!)
             tempL.add(pww)
             _data.value=tempL
+            //存入本地缓存
+            MainActivity.sharedPref.edit().apply {
+                putString("WeatherCache",Gson().toJson(tempL))
+                apply()
+            }
             return true
         }catch (e:java.lang.Exception){
             e.printStackTrace()

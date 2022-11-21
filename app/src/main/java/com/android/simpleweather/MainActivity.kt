@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() {
 
         val locationClient get() = _locationClient!!
         private var _locationClient:LocationClient?=null
+
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +58,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onStart() {
-        startLocation()
         checkPermission()
         super.onStart()
     }
@@ -101,27 +101,11 @@ class MainActivity : AppCompatActivity() {
         _locationClient=null
     }
 
+    //申请定位权限
     private fun checkPermission(){
-        /*val requestPermissionLauncher=registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){res->
-            var flag=true
-            for(r in res){
-                //检查是否授予了所有权限
-                flag=flag&&r.value
-            }
-            if(flag){
-                location()
-            }else{
-                Toast.makeText(this,"请授予定位权限！",Toast.LENGTH_SHORT).show()
-                navControl.navigate(R.id.weatherToPlaceList)
-            }
-        }*/
-
-        if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)!=PackageManager.PERMISSION_GRANTED
-            ||ContextCompat.checkSelfPermission(this,android.Manifest.permission.ACCESS_BACKGROUND_LOCATION)!=PackageManager.PERMISSION_GRANTED){
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION,android.Manifest.permission.ACCESS_BACKGROUND_LOCATION),0)
-            }else ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),0)
-        }
+        if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)!=PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),0)
+        }else startLocation()
     }
 
     override fun onRequestPermissionsResult(
@@ -137,7 +121,7 @@ class MainActivity : AppCompatActivity() {
             if(!flag){
                 Toast.makeText(this,"请授予定位权限！",Toast.LENGTH_SHORT).show()
                 navControl.navigate(R.id.weatherToPlaceList)
-            }
+            }else startLocation()
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }

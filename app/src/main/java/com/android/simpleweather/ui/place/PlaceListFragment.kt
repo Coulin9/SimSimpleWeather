@@ -91,10 +91,17 @@ class PlaceListFragment:Fragment() {
         super.onActivityCreated(savedInstanceState)
     }
 
+    override fun onPause() {
+        //在该界面退出应用时应该将adapter的值置空。
+        //否则会触发通知改变列表的逻辑（用来删除item的）
+        binding?.placeList?.adapter=null
+        super.onPause()
+    }
+
     override fun onDestroyView() {
         binding=null
-        adapter=null
         viewModel=null
+        adapter=null
         super.onDestroyView()
     }
 }

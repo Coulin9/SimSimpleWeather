@@ -124,7 +124,8 @@
                                     <LinearLayout
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:orientation="vertical">
+                                        android:orientation="vertical"
+                                        android:background="@color/white_half_trans">
 
                                         <TextView
                                             android:id="@+id/aqiTitle"
@@ -176,7 +177,8 @@
                                     <LinearLayout
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:orientation="vertical">
+                                        android:orientation="vertical"
+                                        android:background="@color/white_half_trans">
 
                                         <TextView
                                             android:id="@+id/hourlyForecastTitle"
@@ -221,7 +223,8 @@
                                     <LinearLayout
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:orientation="vertical">
+                                        android:orientation="vertical"
+                                        android:background="@color/white_half_trans">
 
                                         <TextView
                                             android:id="@+id/dailyForecastTitle"
@@ -280,7 +283,8 @@
                                         <LinearLayout
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:orientation="vertical">
+                                            android:orientation="vertical"
+                                            android:background="@color/white_half_trans">
 
                                             <TextView
                                                 android:id="@+id/dswrfTitle"
@@ -334,7 +338,8 @@
                                         <LinearLayout
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:orientation="vertical">
+                                            android:orientation="vertical"
+                                            android:background="@color/white_half_trans">
 
                                             <TextView
                                                 android:id="@+id/windTitle"
@@ -399,7 +404,8 @@
                                         <LinearLayout
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:orientation="vertical">
+                                            android:orientation="vertical"
+                                            android:background="@color/white_half_trans">
 
                                             <TextView
                                                 android:id="@+id/appTempTitle"
@@ -453,7 +459,8 @@
                                         <LinearLayout
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:orientation="vertical">
+                                            android:orientation="vertical"
+                                            android:background="@color/white_half_trans">
 
                                             <TextView
                                                 android:id="@+id/humidityTitle"
@@ -524,7 +531,8 @@
                                         <LinearLayout
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:orientation="vertical">
+                                            android:orientation="vertical"
+                                            android:background="@color/white_half_trans">
 
                                             <TextView
                                                 android:id="@+id/visibilityTitle"
@@ -577,7 +585,8 @@
                                         <LinearLayout
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:orientation="vertical">
+                                            android:orientation="vertical"
+                                            android:background="@color/white_half_trans">
 
                                             <TextView
                                                 android:id="@+id/pressureTitle"

@@ -25,6 +25,7 @@ class WeatherFragment:Fragment() {
 
     private var viewModel:AppViewModel?=null
 
+
     companion object{
         val blurRoot get() = _blurRoot!!
         private var _blurRoot:ViewGroup?=null
@@ -43,24 +44,6 @@ class WeatherFragment:Fragment() {
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
-        //LogUtil.d("WF:onActivityCreated","${this.toString()},${viewModel}")
-        //以下的部分是测试代码。
-        /*NetWork.queryPlace("harbin")
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                if(it.status=="ok"){
-                    val placeWithWeather=PlaceWithWeather("ok", it.places!![0],null,null)
-                    val pw2=PlaceWithWeather("ok",it.places[1],null,null)
-                    val pw3=PlaceWithWeather("ok",it.places[2],null,null)
-                    val pw4=PlaceWithWeather("ok",it.places[3],null,null)
-                    val pw5=PlaceWithWeather("ok",it.places[4],null,null)
-                    val pwwList=listOf(placeWithWeather,pw2,pw3,pw4,pw5)
-                    viewModel?.setData(pwwList)
-                }
-                //LogUtil.d("WeatherFragRefresh","")
-                viewModel?.refresh()
-            }*/
 
         //监听LiveData并更新UI
         var firstShow=true
@@ -70,7 +53,6 @@ class WeatherFragment:Fragment() {
                 viewModel?.refresh()
                 firstShow=false
             }
-            //viewModel?.refresh()
             binding?.viewPager?.adapter=WeatherViewPagerAdapter(data,requireActivity())
             //初始化DotIndicator
             binding?.indicator?.setDotNum(viewModel?.data?.value?.size!!)
