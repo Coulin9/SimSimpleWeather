@@ -3,6 +3,7 @@ package com.android.simpleweather
 import android.app.Activity
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -55,6 +56,11 @@ class MainActivity : AppCompatActivity() {
         //初始化定位服务。
         initLocation()
 
+    }
+
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
     }
 
     override fun onStart() {
